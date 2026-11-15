@@ -75,6 +75,7 @@ async def async_setup_entry(
                     ConnectorNumber(coordinator, entry, connector_id, spec)
                 )
 
+    async_add_entities(entities)
 
 
 class BaseConfigurationNumber(ServiceEntity, NumberEntity):
@@ -239,5 +240,3 @@ class ConnectorNumber(ConnectorEntity, NumberEntity):
             self._spec.field,
             int(round(value)) if self._spec.integer else value,
         )
-
-    async_add_entities(entities)

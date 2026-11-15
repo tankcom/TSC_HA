@@ -112,6 +112,7 @@ def _coordinator_of_entry(
             translation_key="entry_not_loaded",
             translation_placeholders={"title": entry.title},
         )
+    return runtime_data.coordinator
 
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
@@ -190,5 +191,3 @@ async def _async_update_listener(hass: HomeAssistant, entry: ConfigEntry) -> Non
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
-
-    return runtime_data.coordinator

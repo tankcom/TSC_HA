@@ -1,0 +1,14 @@
+set_base_configuration_value:
+  fields:
+    config_entry_id:
+      required: true
+      selector:
+        config_entry:
+          integration: tesla_solar_charger
+    field:
+      required: true
+      example: PowerBuffer
+      selector:
+        text:
+    value:
+      required: true

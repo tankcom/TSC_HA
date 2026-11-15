@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
+from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
@@ -77,6 +77,7 @@ class ServiceSensorEntity(ServiceEntity, SensorEntity):
                 time_stamped=self._spec.time_stamped,
                 fallback_field=self._spec.fallback_field,
             )
+        )
 
 
 class CarSensorEntity(CarEntity, SensorEntity):
@@ -173,5 +174,3 @@ class IssueCountSensor(ServiceEntity, SensorEntity):
         """Return the number of issues."""
         data = self.coordinator.data
         return data.issue_count if data else None
-
-        )

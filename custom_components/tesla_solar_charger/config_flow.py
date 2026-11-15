@@ -220,6 +220,7 @@ class TeslaSolarChargerConfigFlow(ConfigFlow, domain=DOMAIN):
         current = {**dict(entry.data), **dict(entry.options)}
 
         errors: dict[str, str] = {}
+        description_placeholders: dict[str, str] = {}
         if user_input is not None:
             host = user_input[CONF_HOST].strip()
             merged = {**current, **user_input, CONF_HOST: host}
@@ -237,6 +238,11 @@ class TeslaSolarChargerConfigFlow(ConfigFlow, domain=DOMAIN):
                 )
             errors["base"] = error
             user_input = {**user_input, CONF_HOST: host}
+            description_placeholders["url"] = build_url(
+                host,
+                merged.get(CONF_PORT, DEFAULT_PORT),
+                merged.get(CONF_USE_SSL, False),
+            )
 
         return self.async_show_form(
             step_id="reconfigure",
@@ -260,6 +266,7 @@ class TeslaSolarChargerConfigFlow(ConfigFlow, domain=DOMAIN):
                 }
             ),
             errors=errors,
+            description_placeholders=description_placeholders,
         )
 
 
@@ -278,5 +285,3 @@ class TeslaSolarChargerOptionsFlow(OptionsFlow):
         return self.async_show_form(
             step_id="init", data_schema=_options_schema(current)
         )
-
-    )

@@ -98,3 +98,65 @@ the type TSC expects, so booleans may be written as `true`, `"true"` or `1`. Pas
 entity cannot express.
 
 Run `python scripts/check_integration.py --print-keys` to get the full list of writable fields.
+
+## Notes and rough edges
+
+- **Polling, not push.** Set the interval to what your automations need; 30 s is a compromise
+  between responsiveness and load on the TSC container.
+- **Nullable settings.** Numbers such as `MaxCombinedCurrent` cannot be cleared from the UI once
+  they hold a value, because an empty number entity is not the same as TSC's `null`. Use the
+  service above.
+- **Secrets are off by default.** The Telegram bot key, the MQTT password and the TeslaMate
+  database password are disabled entities. If you enable one, be aware that Home Assistant's
+  recorder keeps the value in its history.
+- **Base configuration writes are whole-object.** TSC has no PATCH for it, so every change sends
+  the complete config back. If someone edits the TSC web UI at the same moment, whoever writes
+  last wins.
+- **Missing endpoints are tolerated.** If your TSC version does not have a route (for example an
+  older build without `Home`), the entities that depend on it go unavailable and the reason is
+  logged once instead of failing the whole refresh.
+- **No charging start/stop.** OCPP connectors are controlled through their charge mode; there is
+  no "start session" action, because TSC does not offer one.
+- **Not battle-tested.** The code has not been run against a live TSC instance yet. Expect to fix
+  a couple of field names, and open an issue with the TSC version you ran it against.
+
+## Repository layout
+
+```
+custom_components/tesla_solar_charger/
+  api.py           thin async REST client, aiohttp
+  coordinator.py   DataUpdateCoordinator, polling, write helpers
+  const.py         constants, platform list, option keys
+  descriptors.py   tables of TSC config fields (what becomes which entity)
+  descriptions.py  EntityDescription builders and icons
+  entity.py        base entities and device registry helpers
+  util.py          case-insensitive JSON access, DtoValue unwrapping, enum conversion
+  config_flow.py   user / reconfigure / options flow
+  sensor.py select.py number.py switch.py binary_sensor.py text.py button.py
+  __init__.py      setup, services
+scripts/check_integration.py   syntax, JSON and translation-key consistency check
+```
+
+Everything that repeats (name, icon, unit, device class, translation key) is generated from the
+descriptor tables, so adding a setting is usually one line in `descriptors.py` plus the matching
+strings.
+
+## Development
+
+```bash
+python -m pyflakes custom_components/tesla_solar_charger   # undefined names, unused imports
+python scripts/check_integration.py                        # JSON + translation keys
+ruff check custom_components/tesla_solar_charger           # optional, config: see pyproject
+```
+
+There is no test suite in this repository yet; running the integration against a real TSC
+instance and pasting the resulting `entity_registry` + device list is the fastest way to find
+the places where the API differs from the docs.
+
+## Before publishing
+
+- `manifest.json`, `strings.json`, `translations/en.json` and `services.yaml` still have to be
+  generated from the code (the check script tells you exactly which translation keys are missing)
+- `hacs.json` and a licence file are required for the HACS submission
+- the `codeowners` and `documentation` URLs in the manifest are placeholders
+

@@ -1,0 +1,268 @@
+{
+  "entity": {
+    "binary_sensor": {
+      "charging": {"name": "Charging"},
+      "connected": {"name": "Connected"},
+      "home": {"name": "Home"},
+      "online": {"name": "Online"},
+      "plugged_in": {"name": "Plugged in"},
+      "should_start_charging": {"name": "Should start charging"}
+    },
+    "button": {
+      "reset_home_battery_learning": {"name": "Reset home battery learning"},
+      "reset_usable_energy": {"name": "Reset learned usable energy"},
+      "send_test_telegram_message": {"name": "Send test Telegram message"},
+      "wake_up": {"name": "Wake up"}
+    },
+    "number": {
+      "ble_beacon_scan_window": {"name": "BLE beacon scan window"},
+      "ble_data_refresh_interval": {"name": "BLE data refresh interval"},
+      "ble_misses_before_uncertain": {"name": "BLE misses before presence is uncertain"},
+      "ble_presence_max_age": {"name": "BLE presence maximum age"},
+      "ble_sleep_stability": {"name": "BLE sleep stability"},
+      "ble_sleep_window": {"name": "BLE sleep window"},
+      "charge_home_battery_soc_buffer": {"name": "Charge home battery SoC buffer"},
+      "charge_loss": {"name": "Charging loss"},
+      "charging_current_setpoint": {"name": "Charging current setpoint"},
+      "charging_priority": {"name": "Charging priority"},
+      "connected_phases": {"name": "Connected phases"},
+      "dynamic_min_soc_buffer": {"name": "Dynamic minimum SoC calculation buffer"},
+      "grid_power_correction_factor": {"name": "Grid power correction factor"},
+      "hold_home_battery_soc_buffer": {"name": "Hold home battery SoC buffer"},
+      "home_battery_charging_power": {"name": "Home battery charging power"},
+      "home_battery_costs_per_kwh": {"name": "Home battery cost per kWh"},
+      "home_battery_discharging_power": {"name": "Home battery discharging power"},
+      "home_battery_max_charge_soc": {"name": "Home battery maximum charging SoC"},
+      "home_battery_min_soc": {"name": "Home battery minimum SoC"},
+      "home_battery_power_correction_factor": {"name": "Home battery power correction factor"},
+      "home_battery_soc_correction_factor": {"name": "Home battery SoC correction factor"},
+      "home_battery_usable_energy": {"name": "Home battery usable energy"},
+      "home_geofence_radius": {"name": "Home geofence radius"},
+      "home_latitude": {"name": "Home latitude"},
+      "home_longitude": {"name": "Home longitude"},
+      "max_combined_current": {"name": "Maximum combined current"},
+      "max_dynamic_home_battery_min_soc": {"name": "Maximum dynamic home battery SoC"},
+      "max_inverter_ac_power": {"name": "Maximum inverter AC power"},
+      "max_soc": {"name": "Maximum SoC"},
+      "maximum_current": {"name": "Maximum current"},
+      "maximum_phases": {"name": "Maximum phases"},
+      "min_dynamic_home_battery_min_soc": {"name": "Minimum dynamic home battery SoC"},
+      "min_soc": {"name": "Minimum SoC"},
+      "minimum_current": {"name": "Minimum current"},
+      "minutes_until_switch_off": {"name": "Minutes until charging switches off"},
+      "minutes_until_switch_on": {"name": "Minutes until charging switches on"},
+      "modbus_error_backoff": {"name": "Modbus error back-off"},
+      "phase_switch_cooldown": {"name": "Phase switch cooldown"},
+      "power_buffer": {"name": "Power buffer"},
+      "power_change_interval": {"name": "Recalculation interval"},
+      "skip_power_changes_interval": {"name": "Skip power changes for"},
+      "solar_power_correction_factor": {"name": "Solar power correction factor"},
+      "switch_off_current": {"name": "Switch-off current"},
+      "switch_on_current": {"name": "Switch-on current"},
+      "switching_costs": {"name": "Switching cost"},
+      "teslamate_db_port": {"name": "TeslaMate database port"},
+      "usable_energy": {"name": "Usable energy"},
+      "value_update_interval": {"name": "Power value update interval"}
+    },
+    "select": {
+      "car_type": {
+        "name": "Car type",
+        "options": {
+          "Manual": "Manual",
+          "Tesla": "Tesla",
+          "SmartCar": "Smart car"
+        }
+      },
+      "charge_mode": {
+        "name": "Charge mode",
+        "options": {
+          "Off": "Off",
+          "Manual": "Manual",
+          "Auto": "Auto",
+          "MaxPower": "Maximum power"
+        }
+      },
+      "home_detection": {
+        "name": "Home detection",
+        "options": {
+          "GpsLocation": "GPS location",
+          "LocatedAtHome": "At home",
+          "LocatedAtWork": "At work",
+          "LocatedAtFavorite": "At favorite location",
+          "BlePresence": "BLE presence"
+        }
+      }
+    },
+    "sensor": {
+      "cars_charging_power": {"name": "Cars charging power"},
+      "charging_current": {"name": "Charging current"},
+      "charging_phases": {"name": "Charging phases"},
+      "charging_power": {"name": "Charging power"},
+      "charging_voltage": {"name": "Charging voltage"},
+      "distance_to_home": {"name": "Distance to home"},
+      "grid_power": {"name": "Grid power"},
+      "home_battery_power": {"name": "Home battery power"},
+      "home_battery_soc": {"name": "Home battery SoC"},
+      "max_battery_temperature": {"name": "Maximum battery temperature"},
+      "min_battery_temperature": {"name": "Minimum battery temperature"},
+      "requested_current": {"name": "Requested current"},
+      "set_current": {"name": "Set current"},
+      "soc": {"name": "State of charge"},
+      "soc_limit": {"name": "State of charge limit"},
+      "solar_power": {"name": "Solar power"}
+    },
+    "switch": {
+      "allow_guest_cars": {"name": "Allow guest cars"},
+      "auto_phase_switch": {"name": "Automatic phase switching"},
+      "ble_debug": {"name": "BLE debugging"},
+      "discharge_home_battery_during_day": {"name": "Discharge home battery during the day"},
+      "dynamic_home_battery_min_soc": {"name": "Dynamic home battery minimum SoC"},
+      "full_home_battery_by_sunset": {"name": "Full home battery by sunset"},
+      "grid_price_home_battery_control": {"name": "Grid price based home battery control"},
+      "include_tracking_fields": {"name": "Include tracking relevant fields"},
+      "managed": {"name": "Managed charging"},
+      "predict_solar_power": {"name": "Predict solar power generation"},
+      "show_energy_data": {"name": "Show energy data"},
+      "show_power_buffer_on_home": {"name": "Show power buffer on home"},
+      "telegram_send_stack_trace": {"name": "Send stack traces to Telegram"},
+      "teslamate_as_data_source": {"name": "Use TeslaMate as data source"},
+      "teslamate_integration": {"name": "Use the TeslaMate integration"},
+      "use_ble": {"name": "Use BLE"},
+      "use_ble_vehicle_data": {"name": "Get vehicle data over BLE"},
+      "use_fleet_telemetry": {"name": "Use fleet telemetry"},
+      "use_learned_usable_energy": {"name": "Use learned usable energy"},
+      "use_predicted_solar_for_schedules": {"name": "Use predicted solar power for charging schedules"}
+    },
+    "text": {
+      "ble_api_base_url": {"name": "BLE API base URL"},
+      "grid_power_json_pattern": {"name": "Grid power JSON pattern"},
+      "grid_power_url": {"name": "Grid power URL"},
+      "home_battery_inversion_url": {"name": "Home battery power inversion URL"},
+      "home_battery_power_json_pattern": {"name": "Home battery power JSON pattern"},
+      "home_battery_power_url": {"name": "Home battery power URL"},
+      "home_battery_soc_json_pattern": {"name": "Home battery SoC JSON pattern"},
+      "home_battery_soc_url": {"name": "Home battery SoC URL"},
+      "https_additional_host_names": {"name": "Additional HTTPS host names"},
+      "mosquitto_server": {"name": "Mosquitto server"},
+      "mqtt_client_id_prefix": {"name": "MQTT client id prefix"},
+      "mqtt_password": {"name": "MQTT password"},
+      "mqtt_server": {"name": "MQTT server"},
+      "mqtt_username": {"name": "MQTT username"},
+      "solar_power_json_pattern": {"name": "Solar power JSON pattern"},
+      "solar_power_url": {"name": "Solar power URL"},
+      "telegram_bot_key": {"name": "Telegram bot key"},
+      "telegram_channel_id": {"name": "Telegram channel id"},
+      "teslamate_db_name": {"name": "TeslaMate database name"},
+      "teslamate_db_password": {"name": "TeslaMate database password"},
+      "teslamate_db_server": {"name": "TeslaMate database server"},
+      "teslamate_db_user": {"name": "TeslaMate database user"},
+      "teslamate_geofence_name": {"name": "TeslaMate geofence name"}
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to TeslaSolarCharger",
+        "description": "Enter the address of the machine that runs TeslaSolarCharger. Its API listens on port 7190 and does not need an API key.",
+        "data": {
+          "host": "[%key:common::config_flow::data::host%]",
+          "port": "[%key:common::config_flow::data::port%]",
+          "use_ssl": "Connect over HTTPS",
+          "verify_ssl": "Validate the server certificate",
+          "api_key": "[%key:common::config_flow::data::api_key%]",
+          "update_interval_seconds": "Update interval"
+        },
+        "data_description": {
+          "host": "IP address or host name of the server running TeslaSolarCharger.",
+          "port": "Port of the TeslaSolarCharger API, 7190 unless you changed it.",
+          "use_ssl": "Enable this when TLS is terminated in front of TeslaSolarCharger.",
+          "verify_ssl": "Turn this off for a self-signed certificate.",
+          "api_key": "Leave empty unless something in front of TeslaSolarCharger checks a key. It is sent as the x-api-key header.",
+          "update_interval_seconds": "How often the values are read from the API, in seconds."
+        }
+      },
+      "reconfigure": {
+        "title": "Reconfigure TeslaSolarCharger",
+        "description": "Change where this TeslaSolarCharger installation is reachable.",
+        "data": {
+          "host": "[%key:common::config_flow::data::host%]",
+          "port": "[%key:common::config_flow::data::port%]",
+          "use_ssl": "[%key:component::tesla_solar_charger::config::step::user::data::use_ssl%]",
+          "verify_ssl": "[%key:component::tesla_solar_charger::config::step::user::data::verify_ssl%]",
+          "api_key": "[%key:common::config_flow::data::api_key%]"
+        },
+        "data_description": {
+          "host": "[%key:component::tesla_solar_charger::config::step::user::data_description::host%]",
+          "port": "[%key:component::tesla_solar_charger::config::step::user::data_description::port%]",
+          "use_ssl": "[%key:component::tesla_solar_charger::config::step::user::data_description::use_ssl%]",
+          "verify_ssl": "[%key:component::tesla_solar_charger::config::step::user::data_description::verify_ssl%]",
+          "api_key": "[%key:component::tesla_solar_charger::config::step::user::data_description::api_key%]"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not reach {url}. Check the host, the port and whether TeslaSolarCharger is running.",
+      "not_tesla_solar_charger": "{url} answered, but not as a TeslaSolarCharger API."
+    },
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_service%]",
+      "reconfigure_successful": "[%key:common::config_flow::abort::reconfigure_successful%]"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "TeslaSolarCharger options",
+        "data": {
+          "update_interval_seconds": "[%key:component::tesla_solar_charger::config::step::user::data::update_interval_seconds%]",
+          "use_ssl": "[%key:component::tesla_solar_charger::config::step::user::data::use_ssl%]",
+          "verify_ssl": "[%key:component::tesla_solar_charger::config::step::user::data::verify_ssl%]",
+          "api_key": "[%key:common::config_flow::data::api_key%]"
+        },
+        "data_description": {
+          "update_interval_seconds": "[%key:component::tesla_solar_charger::config::step::user::data_description::update_interval_seconds%]",
+          "use_ssl": "[%key:component::tesla_solar_charger::config::step::user::data_description::use_ssl%]",
+          "verify_ssl": "[%key:component::tesla_solar_charger::config::step::user::data_description::verify_ssl%]",
+          "api_key": "[%key:component::tesla_solar_charger::config::step::user::data_description::api_key%]"
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "config_entry_not_found": {
+      "message": "Home Assistant has no TeslaSolarCharger entry with the id {config_entry_id}."
+    },
+    "entry_not_loaded": {
+      "message": "The TeslaSolarCharger entry {title} is not set up, so its settings cannot be changed."
+    },
+    "unknown_setting": {
+      "message": "{field} is not a setting of the TeslaSolarCharger base configuration. Available settings: {known}."
+    },
+    "invalid_value": {
+      "message": "{field} expects {expected}."
+    },
+    "text_too_long": {
+      "message": "{field} accepts at most {max} characters."
+    }
+  },
+  "services": {
+    "set_base_configuration_value": {
+      "name": "Set a TeslaSolarCharger setting",
+      "description": "Changes one property of the TeslaSolarCharger base configuration. Both spellings of a property name are accepted (PowerBuffer or power_buffer), and the value is converted to the type TeslaSolarCharger expects. Pass null to clear a property that TeslaSolarCharger allows to be empty.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Installation",
+          "description": "The TeslaSolarCharger entry to change."
+        },
+        "field": {
+          "name": "Setting",
+          "description": "Property to change, for example PowerBuffer or minutes_until_switch_on."
+        },
+        "value": {
+          "name": "Value",
+          "description": "New value. Use null to clear an optional property."
+        }
+      }
+    }
+  }
+}

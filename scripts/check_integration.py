@@ -76,6 +76,7 @@ def collect_keys(files: list[Path]) -> dict[str, set[str]]:
                     found.setdefault(platform, set()).add(str(node.args[1].value))
             elif name in DESCRIPTION_FUNCS:
                 found.setdefault(DESCRIPTION_FUNCS[name], set()).add(first.value)
+    return found
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -190,5 +191,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-
-    return found
