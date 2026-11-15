@@ -5,9 +5,9 @@
     "@tankcom"
   ],
   "config_flow": true,
-  "documentation": "https://github.com/tankcom/Solar4CarHA",
+  "documentation": "https://github.com/tankcom/TSC_HA",
   "integration_type": "hub",
   "iot_class": "local_polling",
-  "issue_tracker": "https://github.com/tankcom/Solar4CarHA/issues",
+  "issue_tracker": "https://github.com/tankcom/TSC_HA/issues",
   "version": "1.0.0"
 }

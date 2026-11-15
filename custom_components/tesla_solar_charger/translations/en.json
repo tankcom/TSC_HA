@@ -165,11 +165,11 @@
         "title": "Connect to TeslaSolarCharger",
         "description": "Enter the address of the machine that runs TeslaSolarCharger. Its API listens on port 7190 and does not need an API key.",
         "data": {
-          "host": "[%key:common::config_flow::data::host%]",
-          "port": "[%key:common::config_flow::data::port%]",
+          "host": "Host",
+          "port": "Port",
           "use_ssl": "Connect over HTTPS",
           "verify_ssl": "Validate the server certificate",
-          "api_key": "[%key:common::config_flow::data::api_key%]",
+          "api_key": "API key",
           "update_interval_seconds": "Update interval"
         },
         "data_description": {
@@ -185,18 +185,18 @@
         "title": "Reconfigure TeslaSolarCharger",
         "description": "Change where this TeslaSolarCharger installation is reachable.",
         "data": {
-          "host": "[%key:common::config_flow::data::host%]",
-          "port": "[%key:common::config_flow::data::port%]",
-          "use_ssl": "[%key:component::tesla_solar_charger::config::step::user::data::use_ssl%]",
-          "verify_ssl": "[%key:component::tesla_solar_charger::config::step::user::data::verify_ssl%]",
-          "api_key": "[%key:common::config_flow::data::api_key%]"
+          "host": "Host",
+          "port": "Port",
+          "use_ssl": "Connect over HTTPS",
+          "verify_ssl": "Validate the server certificate",
+          "api_key": "API key"
         },
         "data_description": {
-          "host": "[%key:component::tesla_solar_charger::config::step::user::data_description::host%]",
-          "port": "[%key:component::tesla_solar_charger::config::step::user::data_description::port%]",
-          "use_ssl": "[%key:component::tesla_solar_charger::config::step::user::data_description::use_ssl%]",
-          "verify_ssl": "[%key:component::tesla_solar_charger::config::step::user::data_description::verify_ssl%]",
-          "api_key": "[%key:component::tesla_solar_charger::config::step::user::data_description::api_key%]"
+          "host": "IP address or host name of the server running TeslaSolarCharger.",
+          "port": "Port of the TeslaSolarCharger API, 7190 unless you changed it.",
+          "use_ssl": "Enable this when TLS is terminated in front of TeslaSolarCharger.",
+          "verify_ssl": "Turn this off for a self-signed certificate.",
+          "api_key": "Leave empty unless something in front of TeslaSolarCharger checks a key. It is sent as the x-api-key header."
         }
       }
     },
@@ -205,8 +205,8 @@
       "not_tesla_solar_charger": "{url} answered, but not as a TeslaSolarCharger API."
     },
     "abort": {
-      "already_configured": "[%key:common::config_flow::abort::already_configured_service%]",
-      "reconfigure_successful": "[%key:common::config_flow::abort::reconfigure_successful%]",
+      "already_configured": "This TeslaSolarCharger installation is already configured.",
+      "reconfigure_successful": "Reconfiguration was successful.",
       "unique_id_mismatch": "The TeslaSolarCharger answering at {url} is not the installation this entry belongs to. Reconfigure the entry of that installation, or add it as a new integration."
     }
   },
@@ -215,16 +215,16 @@
       "init": {
         "title": "TeslaSolarCharger options",
         "data": {
-          "update_interval_seconds": "[%key:component::tesla_solar_charger::config::step::user::data::update_interval_seconds%]",
-          "use_ssl": "[%key:component::tesla_solar_charger::config::step::user::data::use_ssl%]",
-          "verify_ssl": "[%key:component::tesla_solar_charger::config::step::user::data::verify_ssl%]",
-          "api_key": "[%key:common::config_flow::data::api_key%]"
+          "update_interval_seconds": "Update interval",
+          "use_ssl": "Connect over HTTPS",
+          "verify_ssl": "Validate the server certificate",
+          "api_key": "API key"
         },
         "data_description": {
-          "update_interval_seconds": "[%key:component::tesla_solar_charger::config::step::user::data_description::update_interval_seconds%]",
-          "use_ssl": "[%key:component::tesla_solar_charger::config::step::user::data_description::use_ssl%]",
-          "verify_ssl": "[%key:component::tesla_solar_charger::config::step::user::data_description::verify_ssl%]",
-          "api_key": "[%key:component::tesla_solar_charger::config::step::user::data_description::api_key%]"
+          "update_interval_seconds": "How often the values are read from the API, in seconds.",
+          "use_ssl": "Enable this when TLS is terminated in front of TeslaSolarCharger.",
+          "verify_ssl": "Turn this off for a self-signed certificate.",
+          "api_key": "Leave empty unless something in front of TeslaSolarCharger checks a key. It is sent as the x-api-key header."
         }
       }
     }

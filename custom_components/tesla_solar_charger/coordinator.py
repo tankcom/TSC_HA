@@ -50,7 +50,7 @@ class CarData:
     @property
     def name(self) -> str:
         """Return the name of the car."""
-        return get_str_name(self.basic, self.overview, f"Car {self.car_id}")
+        return get_str_name(self.basic, self.overview, fallback=f"Car {self.car_id}")
 
     @property
     def vin(self) -> str | None:
@@ -74,7 +74,9 @@ class ConnectorData:
     @property
     def name(self) -> str:
         """Return the name of the connector."""
-        return get_str_name(self.config, self.overview, f"Connector {self.connector_id}")
+        return get_str_name(
+            self.config, self.overview, fallback=f"Connector {self.connector_id}"
+        )
 
 
 def get_str_name(*containers: dict[str, Any], fallback: str) -> str:

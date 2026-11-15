@@ -79,6 +79,104 @@ def collect_keys(files: list[Path]) -> dict[str, set[str]]:
     return found
 
 
+def call_signature_problems(files: list[Path]) -> list[str]:
+    """Catch calls that pass a keyword-only parameter positionally.
+
+    This bug class is invisible to a syntax check: ``get_str_name(a, b, "x")``
+    against ``def get_str_name(*containers, fallback: str)`` parses fine and only
+    explodes when the entity platform runs it, which then drops a whole platform.
+    """
+    signatures: dict[str, dict] = {}
+    trees: dict[Path, ast.Module] = {}
+    for path in files:
+        tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+        trees[path] = tree
+        for klass in (n for n in tree.body if isinstance(n, ast.ClassDef)):
+            for node in klass.body:
+                if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                    _remember_signature(signatures, node, implicit_first=True)
+        for node in tree.body:
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                _remember_signature(signatures, node, implicit_first=False)
+
+    problems: list[str] = []
+    for path, tree in trees.items():
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Call):
+                continue
+            if any(k.arg is None for k in node.keywords):
+                continue  # ** unpacking cannot be checked statically
+            name = getattr(node.func, "id", None) or getattr(node.func, "attr", None)
+            sig = signatures.get(name or "")
+            if sig is None:
+                continue
+            given = {k.arg for k in node.keywords}
+            positional = len(node.args)
+            try:
+                short = str(path.relative_to(ROOT))
+            except ValueError:  # a file outside the repository
+                short = str(path)
+            where = f"{short}:{node.lineno}"
+            if positional > sig["positional"] and not sig["varargs"]:
+                problems.append(
+                    f"{where}: {name}() gets {positional} positional arguments, "
+                    f"accepts {sig['positional']}; wants "
+                    f"{', '.join(sig['kwonly'])} as keywords"
+                )
+            missing = [k for k in sig["required_kwonly"] if k not in given]
+            if missing and not sig["varkw"]:
+                problems.append(
+                    f"{where}: {name}() call misses required keyword argument(s): "
+                    f"{', '.join(missing)}"
+                )
+    return problems
+
+
+def _remember_signature(
+    signatures: dict[str, dict], node: ast.FunctionDef | ast.AsyncFunctionDef,
+    implicit_first: bool,
+) -> None:
+    """Record what a call of ``node`` has to look like."""
+    args = node.args
+    positional = len(args.posonlyargs) + len(args.args)
+    static = any(
+        (getattr(d, "id", None) or getattr(d, "attr", None)) == "staticmethod"
+        for d in node.decorator_list
+    )
+    if implicit_first and positional and not static:
+        positional -= 1  # self / cls is passed implicitly
+    signatures[node.name] = {
+        "positional": positional,
+        "kwonly": [k.arg for k in args.kwonlyargs],
+        "required_kwonly": [
+            k.arg for k, d in zip(args.kwonlyargs, args.kw_defaults) if d is None
+        ],
+        "varargs": args.vararg is not None,
+        "varkw": args.kwarg is not None,
+    }
+
+
+def find_unresolvable_references(parsed: dict[Path, dict]) -> list[str]:
+    """Core expands ``[%key:…%]`` references when it builds its own translation
+    files; a custom integration ships them to the frontend verbatim."""
+    problems: list[str] = []
+
+    def walk(value: object, where: str) -> None:
+        if isinstance(value, str):
+            if "[%key:" in value:
+                problems.append(f"{where}: reference that Home Assistant cannot resolve")
+        elif isinstance(value, dict):
+            for key, sub in value.items():
+                walk(sub, f"{where}.{key}")
+        elif isinstance(value, list):
+            for index, sub in enumerate(value):
+                walk(sub, f"{where}[{index}]")
+
+    for path, data in parsed.items():
+        walk(data, str(path.relative_to(ROOT)))
+    return problems
+
+
 def main(argv: list[str] | None = None) -> int:
     """Run the checks and print the keys the code uses."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -173,6 +271,9 @@ def main(argv: list[str] | None = None) -> int:
                     problems.append(
                         f"{path.relative_to(ROOT)}: entity.{platform}.{key} has no name"
                     )
+
+    problems.extend(call_signature_problems(files))
+    problems.extend(find_unresolvable_references(parsed))
 
     total = sum(len(values) for values in keys.values())
     print(f"translation keys used: {total}")

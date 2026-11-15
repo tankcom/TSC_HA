@@ -49,9 +49,11 @@ disabled by default. Enable them on the device page if you want them.
 
 ### HACS
 
-1. Add this repository as an HACS integration repository (HACS → Integrations → ⋮ → Custom
-   → add this repo, category "Integration").
-2. Install "TeslaSolarCharger" and restart Home Assistant.
+The repository is not in the HACS default repositories yet, so add it as a custom one:
+
+1. HACS → Integrations → ⋮ → Custom repositories → add `https://github.com/tankcom/TSC_HA`,
+   category "Integration".
+2. Install "TeslaSolarCharger" from the list and restart Home Assistant.
 
 ### Manual
 
@@ -153,7 +155,11 @@ python scripts/check_integration.py --print-keys           # the key list, per p
 
 The check script needs nothing but Python: it parses the package with `ast` instead of importing
 it, so it runs without a Home Assistant installation. It complains when a translation key is used
-in code but missing from `strings.json`, and about keys that are defined but never used.
+in code but missing from `strings.json`, about keys that are defined but never used, and about any
+string containing a `[%key:…%]` reference. That last one matters: core integrations use those
+references for common text, but they are expanded by core's translation build, which never runs
+here - the frontend would show `[%key:common::config_flow::data::host%]` inside the form instead
+of "Host". Write the text out.
 
 `strings.json` holds the English text and `translations/en.json` is a copy of it, because Home
 Assistant reads that file at runtime for a custom integration. After changing the strings:
