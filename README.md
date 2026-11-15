@@ -73,7 +73,9 @@ Settings → Devices & Services → Add Integration → **TeslaSolarCharger**.
 
 The entry is identified by the TSC installation id, so adding the same instance twice is
 refused. The three-dot menu of the entry has a **Reconfigure** item for changing host or port,
-and **Configure** for the poll interval and the connection options.
+and **Configure** for the poll interval and the connection options. Reconfigure probes the
+address before it saves: if the TSC answering there reports a different installation id, the flow
+stops instead of moving your entities onto another instance.
 
 ## Changing settings
 
@@ -145,8 +147,19 @@ strings.
 
 ```bash
 python -m pyflakes custom_components/tesla_solar_charger   # undefined names, unused imports
-python scripts/check_integration.py                        # JSON + translation keys
-ruff check custom_components/tesla_solar_charger           # optional, config: see pyproject
+python scripts/check_integration.py                        # json files + translation keys
+python scripts/check_integration.py --print-keys           # the key list, per platform
+```
+
+The check script needs nothing but Python: it parses the package with `ast` instead of importing
+it, so it runs without a Home Assistant installation. It complains when a translation key is used
+in code but missing from `strings.json`, and about keys that are defined but never used.
+
+`strings.json` holds the English text and `translations/en.json` is a copy of it, because Home
+Assistant reads that file at runtime for a custom integration. After changing the strings:
+
+```bash
+cp custom_components/tesla_solar_charger/strings.json custom_components/tesla_solar_charger/translations/en.json
 ```
 
 There is no test suite in this repository yet; running the integration against a real TSC
@@ -155,8 +168,10 @@ the places where the API differs from the docs.
 
 ## Before publishing
 
-- `manifest.json`, `strings.json`, `translations/en.json` and `services.yaml` still have to be
-  generated from the code (the check script tells you exactly which translation keys are missing)
-- `hacs.json` and a licence file are required for the HACS submission
-- the `codeowners` and `documentation` URLs in the manifest are placeholders
+- a `LICENSE` file: without one no usage rights are granted, and HACS submissions get asked for it
+- the `version` in `manifest.json` is a guess - HACS takes the version from the release tag, so
+  tag what you publish and keep the two in step
+- `codeowners` in `manifest.json` points at `@tankcom`; add whoever should be pinged
+- the manifest's `documentation` URL is this repository; a page that explains each setting would
+  beat the table above
 

@@ -224,8 +224,26 @@ class TeslaSolarChargerConfigFlow(ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             host = user_input[CONF_HOST].strip()
             merged = {**current, **user_input, CONF_HOST: host}
-            _installation_id, error = await self._async_test_connection(merged)
+            url = build_url(
+                host,
+                merged.get(CONF_PORT, DEFAULT_PORT),
+                merged.get(CONF_USE_SSL, False),
+            )
+            installation_id, error = await self._async_test_connection(merged)
             if error is None:
+                if installation_id and installation_id != entry.unique_id:
+                    if entry.unique_id is not None:
+                        # That address belongs to a different installation.
+                        return self.async_abort(
+                            reason="unique_id_mismatch",
+                            description_placeholders={"url": url},
+                        )
+                    if installation_id in self._async_current_ids():
+                        return self.async_abort(reason="already_configured")
+                    # Older entries were created without an installation id.
+                    self.hass.config_entries.async_update_entry(
+                        entry, unique_id=installation_id
+                    )
                 return self.async_update_reload_and_abort(
                     entry,
                     data_updates={
@@ -238,11 +256,7 @@ class TeslaSolarChargerConfigFlow(ConfigFlow, domain=DOMAIN):
                 )
             errors["base"] = error
             user_input = {**user_input, CONF_HOST: host}
-            description_placeholders["url"] = build_url(
-                host,
-                merged.get(CONF_PORT, DEFAULT_PORT),
-                merged.get(CONF_USE_SSL, False),
-            )
+            description_placeholders["url"] = url
 
         return self.async_show_form(
             step_id="reconfigure",
